@@ -1,141 +1,130 @@
-# Cat-door AC Vent Adapter
+# Window AC Vent Adapter
 
 3D-printable adapter that routes a Toshiba **RAC-PD1212CRRU** portable AC
-exhaust hose through a rectangular cat-door opening. Hose-side uses a
-**cantilever-tab snap-fit** that engages behind the OEM hose-end coupler
-ring. Seasonal, removable, gasketed.
+exhaust hose through the OEM window slider panel. Mates the hose's coupler
+ring on one end and snaps into the window slider port on the other.
 
-## Status
+## Geometry
 
-Snap-fit dimensions use placeholder values. The geometry generates and
-prints; physical measurements of the OEM hose-end coupler may shift the
-numbers slightly. See "Measurements needed" below.
+- **Hose end:** circular collar with internal cantilever tabs that grip
+  the OEM hose-end coupler. Identical mechanism to the prior revision.
+- **Window end:** stadium (racetrack) plug that passes through the OEM
+  window slider port, retained by two compliant cantilever snap tabs on
+  the short (curved) ends. Tabs hook the far side of the slider plate.
 
 ## Dimensions
 
 | Item | Value |
 |---|---|
-| Cat-door opening | 195 mm W × 275 mm H |
-| Hose-end coupler ring OD | 77 mm |
-| Hose-end coupler ring axial depth | 7 mm |
-| Collar bore (slip-fit on ring) | 78 mm |
-| Collar OD (outside) | 84 mm |
-| Flange outer | 231 mm × 311 mm, 8 mm corner radius |
-| Total depth | 190 mm |
-| Wall | 3 mm |
-| Flange plate | 8 mm thick |
-| Gasket channel (back of flange) | 10 mm × 5 mm |
-| Tab count | 3 (120° apart) |
-| Tab inward protrusion | 2.5 mm |
-| Tab circumferential width | 12 mm |
-| Tab ramp angle | 30° from insertion axis (shallow / easy push) |
-| Tab flat crest length | 1.0 mm axial |
-| Tab locking face axial position | z = 177.67 mm (= total_depth − ring_depth − tab_axial_length) |
-| Lock engagement | 2.0 mm radial overlap (ring OR 38.5 vs tab tip 36.5) |
-| Relief slot width | 1.2 mm |
-| Relief slot depth (behind tab) | 18 mm |
-| Cantilever finger length | ~30 mm (anchored at deep end, free at collar tip) |
+| Window slider port (racetrack) | 100 mm × 190 mm |
+| Window slider plate thickness | 4 mm |
+| Plug body | 99.4 × 189.4 mm (port − 0.6 mm slip-fit), 22 mm long |
+| Wall (plug + collar) | 3 mm |
+| Flange (room-side) | 124 × 214 mm, 4 mm thick, 14 mm corner radius |
+| Plug snap tab inward protrusion | 2.0 mm |
+| Plug snap tab angular width | 100° per tab (1 tab per short end) |
+| Plug tab ramp angle | 30° from insertion axis |
+| Plug tab lock overlap past port | 0.5 mm |
+| Hose collar bore | 156 mm (ring_od 155 + 1 mm slip-fit) |
+| Hose collar length | 30 mm |
+| Hose-grip tab count | 7, spaced 360°/7 |
+| Total adapter depth | ~120 mm (4 flange + 60 transition + 30 collar + 22 plug + 4 tab projection ≈) |
 
-Hose-body OD (150 mm / 5.9 in) confirmed from sibling-model Toshiba
-RAC-PD0812CRRU user manual and OEM hose parts listings — but the snap-fit
-engages the smaller **77 mm coupler ring** at the hose end, not the hose
-body.
+The 100 × 190 mm port and 4 mm plate are confirmed from the OEM window
+slider. `ring_od = 155` is carried forward from the prior design and should
+be re-verified against the actual OEM hose-end with calipers.
 
 ## Files
 
-- `catdoor-acvent.scad` — parametric OpenSCAD source. Top-level vars:
-  `door_w`, `door_h`, `flange_lip`, `flange_t`, `flange_corner`, `wall`,
-  `gasket_channel`, `gasket_depth`, `total_depth`, `collar_len`,
-  `ring_od`, `ring_depth`, `hose_clearance`,
-  `tab_count`, `tab_inset`, `tab_width`, `tab_ramp_angle`, `tab_lock_back_t`,
-  `relief_slot_width`, `relief_slot_depth`.
+- `window-acvent-adapter.scad` — parametric OpenSCAD source.
 
 STL is not committed. Open the SCAD in the Windows OpenSCAD app and export
-STL from there (F6 to render, File → Export → Export as STL).
+STL (F6 to render, File → Export → Export as STL).
 
-## Measurements needed (OEM hose-end coupler)
+## Key parameters
 
-Confirm or correct these on the actual hose:
+Window port (OEM measurements):
 
-| Parameter | What to measure | SCAD variable |
-|---|---|---|
-| Ring OD | Caliper across the plastic ring at the very end of the hose. | `ring_od` |
-| Ring axial depth | Length of the ring along the hose axis (the 77 mm-OD section). | `ring_depth` |
-| Necked region behind the ring | Confirm that behind the ring, the hose OD drops to something less than the collar bore (78 mm) so the tab can spring inward. | (informational; not a SCAD var) |
-| Tab count expected | 3 tabs at 120° is current default. Adjust `tab_count` if the OEM ring uses 2 or 4 catches. | `tab_count` |
+- `port_w`, `port_h` — racetrack short and long dimensions.
+- `port_thickness` — slider plate thickness around the port.
+- `port_slip` — diametric slip-fit clearance for the plug in the port.
 
-The cantilever tabs in the adapter mate against the ring's rear edge; they
-don't require any specific feature on the ring beyond a clean 77 mm OD ×
-7 mm cylindrical surface with a smaller-OD neck behind it.
+Flange (room-side plate):
 
-## Export the STL
+- `flange_overhang` — how far the flange extends past the port edge.
+- `flange_t`, `flange_corner` — flange thickness and outer corner radius.
+- `gasket_channel`, `gasket_depth` — set both > 0 to mill a foam-strip
+  channel into the back face of the flange.
 
-Open `catdoor-acvent.scad` in the OpenSCAD GUI on Windows. `F6` to render,
-`File → Export → Export as STL`. Save next to the SCAD as
-`catdoor-acvent.stl`.
+Plug body and snap tabs:
 
-After verifying measurements on the OEM hose, edit `ring_od`, `ring_depth`,
-and any tab parameters in the SCAD and re-export.
+- `plug_depth` — axial length of plug body beyond the flange face. Sets
+  the cantilever finger length, so it also sets the snap-tab compliance
+  (longer = softer).
+- `wall` — plug and collar wall thickness. Snap force scales as `wall³`.
+- `plug_tab_inset` — radial protrusion of the tab past the plug OD; equals
+  the maximum cantilever deflection during insertion.
+- `plug_tab_arc_deg` — angular width of each tab on the short-end
+  semicircle. 100° covers most of the curved end.
+- `plug_tab_ramp_angle` — entry ramp angle. Lower angle = easier push.
+- `plug_tab_lock_back_t` — flat-crest axial length at the tab tip.
+- `plug_tab_overlap` — how far past `port_thickness` the locking face
+  sits. The locking face engages the far-side surface of the slider plate.
+- `plug_relief_slot_arc_deg` — angular width of each relief slot. Two
+  slots flank each tab.
+
+Hose-end coupler (preserved from prior design):
+
+- `ring_od`, `ring_depth`, `hose_clearance`, `collar_len` — bore and
+  length of the hose collar.
+- `htab_*`, `hrelief_slot_*` — internal cantilever tabs gripping the
+  hose-end. Same semantics as the prior revision.
+
+## Installation
+
+1. (Optional) If you set `gasket_channel > 0`, cut a foam weatherstrip to
+   fit the channel on the back face of the flange and press it in.
+2. With the OEM window slider already installed in the window, push the
+   plug end of the adapter through the slider port from the room side.
+   The two short-end ramps hit the port edges first, the cantilever
+   fingers flex inward, and the tabs snap outward behind the far face of
+   the slider plate. Audible click at lock.
+3. Push the AC exhaust hose into the round collar coupler-end first.
+   The hose-end coupler ring slides up the internal tab ramps, deflects
+   the cantilever fingers outward, and snaps inward into the recess
+   behind the ring.
+4. To remove the adapter from the window slider, squeeze the two short-end
+   tabs inward (or pull firmly if the latch is set soft enough) and slide
+   the adapter out toward the room.
+
+## Tuning
+
+Plug-side snap (window slider port):
+
+- Too stiff (won't push through the port): drop `plug_tab_inset` to 1.5 mm,
+  drop `wall` to 2.5 mm, or lower `plug_tab_ramp_angle` to 20°.
+- Too loose (rattles or backs out): raise `plug_tab_inset` to 2.5 mm or
+  raise `plug_tab_overlap` to 1.0 mm.
+- Tabs crack on insertion: relief slots are too short. Raise `plug_depth`
+  to 28 mm (longer finger = lower stress).
+
+Hose-side snap (collar gripper):
+
+- Same tuning model as the prior revision: adjust `htab_inset`, `htab_count`,
+  and `hrelief_slot_depth` to trade hold strength for insertion force.
 
 ## Print settings (Creality K2 Plus, PLA)
 
 | Setting | Value |
 |---|---|
-| Orientation | Flange-down (flat face on bed). Collar opening points up. |
-| Bed footprint | 231 × 311 mm (fits 350 × 350 build plate) |
-| Layer height | 0.20 mm (recommended for tab + lock-face detail) |
+| Orientation | Plug-up. Flange flat on bed (room-side face down). |
+| Bed footprint | 124 × 214 mm |
+| Layer height | 0.20 mm |
 | Wall loops | 4 |
 | Top/bottom layers | 5 |
 | Infill | 15% gyroid |
-| Supports | None. Outer is convex; inner funnel self-supporting. The 2.5 mm tab locking-face is a short horizontal overhang at z ≈ 178 mm — PLA bridges it without supports. Relief slots are open vertical cuts. |
-| Brim | 5 mm single-line. Large flat flange is prone to corner lift on PLA. |
+| Supports | None. Collar bore self-supporting at the transition; tab crests are short overhangs that PLA bridges without supports. |
+| Brim | 5 mm single-line on the flange perimeter |
 | Bed | 60 °C, glue stick or Magigoo on the flange footprint |
 | Nozzle | 215 °C (PLA), 0.4 mm |
-| Cooling | Fan 100% from z ≈ 175 mm upward to clean-bridge the lock face. |
-| Print time | ~14–18 h |
-
-The cantilever fingers print standing upright (axial direction = print Z).
-Each finger is 12 mm wide × 30 mm tall × 3 mm thick. Should flex enough in
-PLA to engage the snap-fit (~22 N force at the tab to deflect 2.5 mm,
-well below PLA yield stress). If snap is too stiff, edit the SCAD to
-thin the wall locally — drop `wall` to 2.0 mm at the tab area or shorten
-`tab_inset` to 2.0 mm.
-
-## Assembly
-
-1. Cut 10 mm × 5 mm adhesive-backed foam weatherstrip to fit the gasket
-   channel on the flange back. Continuous rectangular loop with rounded
-   inside corners; cut four lengths and butt corners, or notch a single
-   strip.
-2. Peel foam backing and press into the channel.
-3. From inside the room, push the flange against the cat-door frame so
-   the foam compresses evenly.
-4. Push the AC exhaust hose into the collar coupler-end first. The
-   ring's outer surface slides up the tab ramps, deflects the cantilever
-   fingers outward, then snaps back inward into the recess behind the
-   ring once the ring's rear edge clears the tab. Audible click at lock.
-5. To remove: squeeze the three tabs inward (or pull firmly if they're
-   flexible enough) and slide the hose straight out.
-
-## Tuning
-
-- Snap too stiff (hose won't push past): drop `tab_inset` to 2.0 mm or
-  shorten `tab_lock_back_t` to 0.5 mm. Alternatively lengthen
-  `relief_slot_depth` to 22 mm for a longer cantilever (lower stiffness).
-- Snap too loose (hose backs out under light pull): raise `tab_inset` to
-  3.0 mm so the tab overlaps more of the ring's rear edge.
-- Tabs miss the ring entirely (snap engages before ring is seated):
-  measure ring axial depth precisely and update `ring_depth`. Setback
-  derives automatically from `ring_depth + tab_axial_length`.
-- Tabs crack on first insertion: relief slots are too short. Raise
-  `relief_slot_depth` to 22–25 mm.
-- Air leak through relief slots is a concern for tight sealing: stuff
-  small foam plugs into each slot after the hose is locked in. Or print
-  with the slot exits sealed (would need a SCAD edit; ask if needed).
-
-## Gasket sourcing
-
-10 mm × 5 mm closed-cell EPDM or PVC self-adhesive foam weatherstrip.
-Amazon search: "10mm × 5mm self-adhesive foam weather strip". A 5 m roll
-covers several adapters with leftovers. Closed-cell handles humidity
-better than open-cell.
+| Cooling | Fan 100% from the tab z-range upward, to clean-bridge lock faces. |
